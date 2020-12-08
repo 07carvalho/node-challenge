@@ -1,4 +1,5 @@
 const axios = require('axios');
+const createError = require('http-errors');
 const dotenv = require('dotenv');
 
 dotenv.config()
@@ -12,8 +13,17 @@ const api = axios.create({
 });
 
 const get = async (url, parameters) => {
-  const params = {...parameters, api_token: process.env.PIPEDRIVE_PERSONAL_API_TOKEN };
-  return await api.get(url, { params });
+  try {
+    const params = {...parameters, api_token: process.env.PIPEDRIVE_PERSONAL_API_TOKEN};
+    return await api.get(url, {params});
+  } catch (e) {
+    console.error(e);
+    throw createError(400, {
+      errors: {
+        message: 'An error occurred in Pipedrive API.'
+      }
+    });
+  }
 }
 
 module.exports = {

@@ -1,8 +1,8 @@
 const express = require('express');
-const pipedriveController = require('../controllers/pipedrive');
+const dealsController = require('../controllers/deals');
 
 const router = express.Router();
 
-router.get('/pipedrive/deals', pipedriveController.getWonDeals);
+router.get('/deals', dealsController.getWonDeals);
 
 module.exports = router;
