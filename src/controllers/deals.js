@@ -1,4 +1,6 @@
-const pipedriveInterface = require('../interfaces/pipedrive');
+const blingInterface = require('../interfaces/apis/bling');
+const pipedriveInterface = require('../interfaces/apis/pipedrive');
+const xmlInterface = require('../interfaces/xml/builder');
 
 const getWonDeals = async (request, response) => {
   try {
@@ -12,16 +14,17 @@ const getWonDeals = async (request, response) => {
        return {...deal, products};
     }));
 
-    return response.status(200).json(dealsWithProducts);
+    const result = await Promise.all(dealsWithProducts.map(async (item) => {
+      const xml = xmlInterface.generatePedidoBlingFromPipedriveDeal(item);
+      const p = await blingInterface.createPedido(xml);
+      return p;
+    }));
+
+    return response.status(200).json(result);
   } catch (e) {
     console.error(e);
-    return response.status(400).json({
-      errors: {
-        message: 'Sorry, try again later.'
-      }
-    });
+    return response.status(e.status).json(e);
   }
-
 }
 
 module.exports = {

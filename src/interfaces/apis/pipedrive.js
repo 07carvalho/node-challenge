@@ -1,5 +1,5 @@
 const createError = require('http-errors');
-const pipedriveServices = require('../services/pipedrive');
+const pipedriveServices = require('../../services/apis/pipedrive');
 
 
 const getDeals = async (params) => {
@@ -12,11 +12,7 @@ const getDeals = async (params) => {
     }
   } catch (e) {
     console.error(e);
-    throw createError(400, {
-      errors: {
-        message: 'An error occurred while get the deals'
-      }
-    });
+    throw createError(e.status, {...e.errors});
   }
 }
 
@@ -29,11 +25,7 @@ const getDealProducts = async (id) => {
     }
   } catch (e) {
     console.error(e);
-    throw createError(400, {
-      errors: {
-        message: 'An error occurred while get the deal\'s products.'
-      }
-    });
+    throw createError(e.status, {...e.errors});
   }
 }
 

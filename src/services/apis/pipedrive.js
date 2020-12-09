@@ -6,7 +6,7 @@ dotenv.config()
 
 const api = axios.create({
   baseURL: process.env.PIPEDRIVE_API_URL,
-  timeout: 1000,
+  timeout: 6000,
   headers: {
     'Accept': 'application/json'
   }
@@ -18,7 +18,8 @@ const get = async (url, parameters) => {
     return await api.get(url, {params});
   } catch (e) {
     console.error(e);
-    throw createError(400, {
+    throw createError(e.response.status, {
+      status: e.response.status,
       errors: {
         message: 'An error occurred in Pipedrive API.'
       }
