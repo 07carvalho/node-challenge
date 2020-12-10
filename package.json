@@ -28,6 +28,7 @@
     "http-errors": "^1.8.0",
     "mongoose": "^5.11.5",
     "qs": "^6.9.4",
+    "swagger-ui-express": "^4.1.5",
     "xmlbuilder": "^15.1.1"
   },
   "devDependencies": {

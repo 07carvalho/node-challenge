@@ -30,6 +30,8 @@ Run:
 Then:
 > docker-compose up -d
 
+### Swagger
+See the endpoints documentation in [http://localhost:8000/docs/](http://localhost:8000/docs/):
 
 ### Third Party Documentation
 * [Pipedrive](https://developers.pipedrive.com/docs/api/v1/)

@@ -1,0 +1,84 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Pipedrive Deals API",
+    "description": "Get deals in Pipedrive API and save in Bling API and Mongo.",
+    "version": "1.0.0"
+  },
+  "host": "localhost:8000",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/deals": {
+      "get": {
+        "summary": "Returns a list of aggregated deals by date.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of aggregated deals by date",
+            "schema": {
+              "$ref": "#/definitions/Deals"
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Get all won deals in Pipedrive and save in Bling and database",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of aggregated deals by date",
+            "schema": {
+              "$ref": "#/definitions/Deals"
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Deal": {
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "date": {
+          "type": "string"
+        }
+      }
+    },
+    "Deals": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Deal"
+      }
+    },
+    "Error": {
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
