@@ -1,8 +1,9 @@
 const blingInterface = require('../interfaces/apis/bling');
 const pipedriveInterface = require('../interfaces/apis/pipedrive');
 const xmlInterface = require('../interfaces/xml/builder');
+const dealRepository = require('../repositories/deals');
 
-const getWonDeals = async (request, response) => {
+const getWonDealsAndSave = async (request, response) => {
   try {
     const params = {
       status: 'won',
@@ -14,19 +15,44 @@ const getWonDeals = async (request, response) => {
        return {...deal, products};
     }));
 
-    const result = await Promise.all(dealsWithProducts.map(async (item) => {
+    await Promise.all(dealsWithProducts.map(async (item) => {
       const xml = xmlInterface.generatePedidoBlingFromPipedriveDeal(item);
-      const p = await blingInterface.createPedido(xml);
-      return p;
+      return await blingInterface.createPedido(xml);
     }));
 
-    return response.status(200).json(result);
+    const results = buildResult(deals.data);
+    dealRepository.bulkCreate(results);
+    return response.status(200).json(results);
   } catch (e) {
     console.error(e);
     return response.status(e.status).json(e);
   }
 }
 
+const getDate = (date) => {
+	return date.split(' ')[0];
+}
+
+const buildResult = (data) => {
+  let total = [];
+  data.forEach((current) => {
+    const date = getDate(current.won_time);
+    let found = false;
+    total.forEach((item) => {
+      if (item.date === date) {
+        item.value += current.value;
+        found = true;
+      }
+    })
+    if (!found) {
+      total.push({ date: date, value: current.value })
+    }
+  });
+  return total;
+}
+
 module.exports = {
-  getWonDeals,
+  getWonDealsAndSave,
+  getDate,
+  buildResult,
 }

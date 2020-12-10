@@ -3,6 +3,6 @@ const dealsController = require('../controllers/deals');
 
 const router = express.Router();
 
-router.get('/deals', dealsController.getWonDeals);
+router.post('/deals', dealsController.getWonDealsAndSave);
 
 module.exports = router;
