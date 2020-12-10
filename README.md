@@ -9,7 +9,8 @@ Stack used:
 * Jest
 
 ### Initialize
-Create a .env file in the root of the project and fill all fields:
+Create a `.env` file in the root of the project and fill all fields:
+
 ```
 PIPEDRIVE_API_URL=
 PIPEDRIVE_PERSONAL_API_TOKEN=
@@ -36,3 +37,8 @@ See the endpoints documentation in [http://localhost:8000/docs/](http://localhos
 ### Third Party Documentation
 * [Pipedrive](https://developers.pipedrive.com/docs/api/v1/)
 * [Bling](https://ajuda.bling.com.br/hc/pt-br/categories/360002186394-API-para-Desenvolvedores)
+
+### Next steps
+* Implement routines to synchronize the deals on Pipedrive and Bling to avoid duplicates registers.
+* Use message queues to synchronize the deals instead of http request, as the number of deals can be really great in a real scenario.
+* Refactor the application to be able to be used for many clients, keeping personal data (URLs, keys, etc) in the database.
