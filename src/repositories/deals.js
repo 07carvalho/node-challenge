@@ -9,6 +9,13 @@ const bulkCreate = (valuesPerDay) => {
   });
 }
 
+const getAll = () => {
+  return Deals.find({}).then((deals) => {
+    return deals;
+  })
+}
+
 module.exports = {
   bulkCreate,
+  getAll,
 }

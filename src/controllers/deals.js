@@ -51,8 +51,20 @@ const buildResult = (data) => {
   return total;
 }
 
+const getDealsCollections = async (request, response) => {
+  try {
+    const deals = await dealRepository.getAll();
+    console.log(deals);
+    return response.status(200).json(deals);
+  } catch (e) {
+    console.error(e);
+    return response.status(400).json(e);
+  }
+}
+
 module.exports = {
   getWonDealsAndSave,
   getDate,
   buildResult,
+  getDealsCollections,
 }
